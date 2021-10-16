@@ -7,12 +7,12 @@ var app = Router();
 app.get('/', function (req, res) {
     //res.json()
     res.render('index', {titulo: "NutriGym"});
-    console.log('Index Works');
+    //console.log('Index Works');
 
 })
 app.get('/login', (req,res) =>{
 
-    res.render('login');
+    res.render('login', {titulo: "Login"});
 
 })
 
