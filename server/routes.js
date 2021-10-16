@@ -1,11 +1,18 @@
 //Route.js - Módulo de rutas
-var express = require('express');
-var app = express();
+var {Router} = require('express');
+var app = Router();
 
 
 // Get mensajes
 app.get('/', function (req, res) {
     //res.json()
+    res.render('index', {titulo: "NutriGym"});
+    console.log('Index Works');
+
+})
+app.get('/login', (req,res) =>{
+
+    res.render('login');
 
 })
 
