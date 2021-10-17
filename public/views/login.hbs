@@ -6,22 +6,28 @@
         <div class="card-body">
         </div>
         <div class="card-footer">
-            <form action="/new-contact" method="POST">
+            <form action="/login" method="POST">
                 <div class="form-group">
-                    <input type="text" name="firstname" placeholder="Firstname" class="form-control" autofocus>
+                    <input type="text" name="nick" placeholder="Nick" class="form-control" autofocus>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="lastname" placeholder="Lastname" class="form-control">
+                    <input type="text" name="nombre" placeholder="Nombre" class="form-control">
+                </div>                
+                <div class="form-group">
+                    <input type="text" name="apellidos" placeholder="Apellidos" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="email" class="form-control">
+                    <input type="email" name="mail" placeholder="Correo" class="form-control">
                 </div>
-                <div class="form-group">
-                    <input type="tel" name="phone" placeholder="Phone" class="form-control">
-                </div>
+                {{!-- <div class="form-group">
+                    <input type="number" name="peso" placeholder="Peso" class="form-control">
+                </div> --}}
                 <button class="btn btn-primary btn-block">
                     Add
                 </button>
+                <a href="/" class="btn btn-primary btn-block" >
+                    Cancel
+                </a>
             </form>
         </div>
     </div>
