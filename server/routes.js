@@ -35,7 +35,14 @@ app.post('/', function (req, res) {
 app.post('/login', (req,res) =>{
 
     console.log(req.body);
+    crearUser(req);
+    res.redirect('/'); //Redigir cuando se realiza el login
 
+});
+
+
+//Función para crear un usuario nuevo
+function crearUser (req) {
     const data = {
         nick: req.body.nick,
         nombre: req.body.nombre,
@@ -43,17 +50,7 @@ app.post('/login', (req,res) =>{
         mail: req.body.mail,
         //peso: req.body.peso
     };
-
-    const docRef = db.collection('users').doc(req.body.nick).set(data);;
-    
-
-
-
-
-
-    res.redirect('/'); //Redigir cuando se realiza el login
-
-});
-
+    const docRef = db.collection('users').doc(req.body.nick).set(data);
+}
 
 module.exports = app;
