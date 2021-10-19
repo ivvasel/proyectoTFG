@@ -2,13 +2,8 @@
 var {Router} = require('express');
 var app = Router();
 
-//Inicializamos Cloud Firestore Database
-const admin = require('firebase-admin');
-const serviceAccount = require('../service-account.json');
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
-const db = admin.firestore();
+//Firebase.js - Módulo de la BD
+const firestore = require('./firestore');
 
 
 // Get mensajes
@@ -22,8 +17,16 @@ app.get('/login', (req,res) =>{
 
     res.render('login', {titulo: "Login"});
 
-
 })
+
+app.get('/menu',(req,res) =>{
+
+    res.render('menu',{titulo: "Menu"});
+} );
+
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 
 // Post mensajes
 app.post('/', function (req, res) {
@@ -35,22 +38,7 @@ app.post('/', function (req, res) {
 app.post('/login', (req,res) =>{
 
     console.log(req.body);
-    crearUser(req);
+    firestore.crearUser(req); // Función importada de ./firestore.js
     res.redirect('/'); //Redigir cuando se realiza el login
 
 });
-
-
-//Función para crear un usuario nuevo
-function crearUser (req) {
-    const data = {
-        nick: req.body.nick,
-        nombre: req.body.nombre,
-        apellido: req.body.apellidos,   
-        mail: req.body.mail,
-        //peso: req.body.peso
-    };
-    const docRef = db.collection('users').doc(req.body.nick).set(data);
-}
-
-module.exports = app;
