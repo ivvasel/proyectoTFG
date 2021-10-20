@@ -1,32 +1,45 @@
-<div id="sidebar" class="slideout-menu" style="display:flex;">
-    
-</div>
-<div id="content" class="slideout-panel">
-    <header>
-        <div id="header-top">
-            <div id="header-top-left">
-                <button id="toggle-menu" class="btn">
+{{!-- <link rel="stylesheet" href="https://gomister.com/dist/css/dark.min.css?1634313514"> --}}
+<link rel="stylesheet" href="../css/menu.css">
 
+
+<div id="sidebar" class="slideout-menu" style="display:flex;">   
+</div>
+
+<div id="content" class="slideout-panel">
+    <div id ='lock'></div>
+    <header >
+        <div id="header-top">
+            <div class="header-top-left">
+                <button id="toggle-menu" class="btn">
+                    foto
                 </button>
             </div>
-        </div>
+            <div class="header-top-center">
+                <div class="title">
+                    NutriWork
+                </div>
+            </div>
+        </div>       
 
-        <div id="header-menu">
+    </header>
+    <section class="wrapper">
+        Bienvenido
+    </section>
+    <nav id="nav-menu">
             <ul class="menu">
                 <li>
-                    <a href="" class="btn active navbar-switch-tab">
-                        <svg>
-                            <use href=""></use>
-                        </svg>
-                        <div class="title">Ejercicios</div>
+                    <a href="/nutricion" class="btn active navbar-switch-tab">Nutrición
+                    </a>
+                </li>
+                <li>
+                    <a href="/workout" class="btn active navbar-switch-tab">WorkOut
+                    </a>
+                </li>
+                <li>
+                    <a href="/medidas" class="btn active navbar-switch-tab">Medidas
                     </a>
                 </li>
 
             </ul>
-        </div>
-
-    </header>
-    <div class="wrapper">
-        Bienvenido
-    </div>
+        </nav>
 </div>
