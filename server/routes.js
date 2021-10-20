@@ -42,3 +42,6 @@ app.post('/login', (req,res) =>{
     res.redirect('/'); //Redigir cuando se realiza el login
 
 });
+
+
+module.exports = app;
