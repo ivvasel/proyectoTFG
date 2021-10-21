@@ -1,6 +1,5 @@
 const express = require('express');
 const morgan = require('morgan');
-const exphbs = require('express-handlebars');
 const path = require('path');
 //const admin = require('firebase-admin');
 
@@ -9,12 +8,19 @@ const app = express();
 // settings
 const publicPath = path.resolve(__dirname, '../public');
 const port = process.env.PORT || 3000; //utiliza un puerto config o el 3000
-app.engine('hbs',exphbs ({
-    defaultLayout: '../main',
-    extname: '.hbs'
-}));
+// Directorio Público
+app.use(express.static(publicPath));
+
+
+//HanddleBars
+const hbs = require('hbs');
+const viewsPath = publicPath + '/views';
+
+hbs.registerPartials(viewsPath + '/partials', function (err) {})
 app.set('view engine', 'hbs');
-app.set('views', publicPath + '/views');
+app.set('views', viewsPath);
+
+
 
 // Escuchando el puerto
 app.listen(port, (err) => {
@@ -29,9 +35,6 @@ app.listen(port, (err) => {
 app.use(express.json()); // support json encoded bodies
 app.use(express.urlencoded({ extended: true })); // support encoded bodies
 
-
-// Directorio Público
-app.use(express.static(publicPath));
 
 // Rutas 
 const routes = require('./routes');

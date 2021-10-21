@@ -23,6 +23,7 @@ const APP_SHELL_INMUTABLE = [
 self.addEventListener('install', e => {
 
     console.log('SW: Instalado');
+    self.skipWaiting()
  
 
     //Inicializa el los cache (descarga los archivos al cache)
@@ -79,7 +80,7 @@ self.addEventListener('fetch', e => {
         respuesta = caches.match( e.request ).then( res => {
             if ( res ) {
 
-                actualizaCacheStatico (STATIC_CACHE, e.request, APP_SHELL_INMUTABLE);
+                //actualizaCacheStatico (STATIC_CACHE, e.request, APP_SHELL_INMUTABLE);
                 return res;
             }else {
                 //Si no esta en los caches se solicita a la web
@@ -93,6 +94,6 @@ self.addEventListener('fetch', e => {
         });
     }
 
-    //Respondemos a la apliación
+    //Respondemos a la apliación 
     e.respondWith (respuesta);
 })

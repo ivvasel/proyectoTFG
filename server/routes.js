@@ -9,13 +9,18 @@ const firestore = require('./firestore');
 // Get mensajes
 app.get('/', function (req, res) {
     //res.json()
-    res.render('index', {titulo: "NutriGym"});
+    res.render('index', {
+        titulo: "NutriGym",
+        Layaout: false
+    });
     //console.log('Index Works');
 
 })
 app.get('/login', (req,res) =>{
 
-    res.render('login', {titulo: "Login"});
+    res.render('login', {
+        titulo: "Login",
+    });
 
 })
 
@@ -23,6 +28,14 @@ app.get('/menu',(req,res) =>{
 
     res.render('menu',{titulo: "Menu"});
 } );
+
+app.get('/workout',(req,res) =>{
+
+    res.render('workout', {
+        titulo: "WorkOut",
+        Layaout: 'menu'
+    })
+});
 
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
