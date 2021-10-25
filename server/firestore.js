@@ -1,11 +1,11 @@
 //Inicializamos Cloud Firestore Database
-const { firestore } = require('firebase-admin');
 const admin = require('firebase-admin');
 const serviceAccount = require('../service-account.json');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 const db = admin.firestore();
+
 
 //Variables
 var prueba = {
@@ -15,8 +15,7 @@ var prueba = {
 const user = 'IvanVa';
 // Sentencias NoSQL
 const usersRef = db.collection('users');
-const userRef = usersRef.doc(user);
-const workoutRef = userRef.collection('WorkOut');
+
 
 
 //Función para crear un usuario nuevo
@@ -50,7 +49,20 @@ function verTabla(){
 }
 
 function addEjercicio (){
-    userRef
+
+}
+
+//Funcion para obtener el Usuario conectado
+function getUser (nick){    
+    const collection = db.collectionGroup('users')
+    .orderBy('createdAt');
+}
+
+//Función para obtener todas las colecciones que se llamen igual
+
+function getCollectionAll(){ 
+
+    
 }
 
 //Instrucción para listar las colecciones
@@ -69,3 +81,4 @@ function addEjercicio (){
 
 //Exportaciones
 exports.crearUser = crearUser;
+exports.getUser = getUser;
