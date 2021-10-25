@@ -26,15 +26,12 @@ app.get('/login', (req,res) =>{
 
 app.get('/menu',(req,res) =>{
 
-    res.render('menu',{titulo: "Menu"});
+    res.render('menu');
 } );
 
 app.get('/workout',(req,res) =>{
 
-    res.render('workout'), {
-        titulo: 'WorkOut',
-        estado: true
-    };
+    res.render('workout');
 });
 
 //////////////////////////////////////////////////////////

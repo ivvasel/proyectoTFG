@@ -1,5 +1,9 @@
-{{!-- <link rel="stylesheet" href="https://gomister.com/dist/css/dark.min.css?1634313514"> --}}
+<!DOCTYPE html>
+<html lang="es">
+{{> head titulo= "Menu"}}
 <link rel="stylesheet" href="../css/menu.css">
+<body>
+
 
 
 <div id="sidebar" class="slideout-menu" style="display:flex;">   
@@ -7,39 +11,10 @@
 
 <div id="content" class="slideout-panel">
     <div id ='lock'></div>
-    <header >
-        <div id="header-top">
-            <div class="header-top-left">
-                <button id="toggle-menu" class="btn">
-                    <img src="../img/user-placehorder.jpeg" height="25px" width="25px">
-                </button>
-            </div>
-            <div class="header-top-center">
-                <div class="title">
-                    NutriWork
-                </div>
-            </div>
-        </div>       
-
-    </header>
+{{> header}}
     <section class="wrapper">
         Bienvenido
     </section>
-    <nav id="nav-menu">
-            <ul class="menu">
-                <li>
-                    <a href="/nutricion" class="btn active navbar-switch-tab">Nutrición
-                    </a>
-                </li>
-                <li>
-                    <a href="/workout" class="btn active navbar-switch-tab">WorkOut
-                    </a>
-                </li>
-                <li>
-                    <a href="/medidas" class="btn active navbar-switch-tab">Medidas
-                    </a>
-                </li>
-
-            </ul>
-        </nav>
+{{> nav}}
+{{> footer}}
 </div>
