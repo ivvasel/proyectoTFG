@@ -10,5 +10,5 @@ if (navigator.serviceWorker) {
         console.log('Pruebas Localhost');
     }
 
-    navigator.serviceWorker.register(swLocation);
+    //navigator.serviceWorker.register(swLocation);
 }

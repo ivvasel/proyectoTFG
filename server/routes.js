@@ -31,10 +31,10 @@ app.get('/menu',(req,res) =>{
 
 app.get('/workout',(req,res) =>{
 
-    res.render('workout', {
-        titulo: "WorkOut",
-        Layaout: 'menu'
-    })
+    res.render('workout'), {
+        titulo: 'WorkOut',
+        estado: true
+    };
 });
 
 //////////////////////////////////////////////////////////
