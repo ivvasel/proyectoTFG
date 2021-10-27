@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+{{> head titulo= "WorkOut"}}
+<link rel="stylesheet" href="../css/menu.css">
+
+<body>
+{{> header}}
+<div>
+    <h3>Días de entrenamiento</h3>
+    <table>
+        <tbody id="tablaDias">
+            <tr id='filaDias'>
+                <td><button id = "Boton1"onclick=selectDia(1)>1</button></td>
+                <td><button onclick=addDia()>+</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<div>
+    <h4 id="diaSelected">Dia 1</h4>
+</div>
+<div>
+    <input type="ejercicio1" name="ejercicio1" placeholder="Ejercicio1" class="form-control">
+
+</div>
+<script src="../js/workout.js"></script>
+{{> footer}}

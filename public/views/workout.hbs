@@ -6,9 +6,38 @@
 <body>
     
     {{> header }}
-    
+    <div>
+      <a href="/workout/add" class="btn btn-primary btn-block"> Añadir tabla</a>
+    </div>
+    <div>
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody id="tabla">
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    {{#each tabla}}
+        <th scope="row">1</th>
+        <td>{{this.nombre}} </td>
+        <td>{{this.nick}} </td>
+        <td>{{this.mail}} </td>
+    {{/each}}
+  </tbody>
+</table>
+</div>
 
     {{> nav}}
+    <script src="../js/workout.js"></script>
     {{> footer}}
 
 

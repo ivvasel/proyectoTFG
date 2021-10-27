@@ -53,17 +53,37 @@ function addEjercicio (){
 }
 
 //Funcion para obtener el Usuario conectado
-function getUser (nick){    
-    const collection = db.collectionGroup('users')
-    .orderBy('createdAt');
+function getUser (nick,res){  
+    //console.log(res);  
+    let nicks = [];
+    let names = [];
+    let mails = [];
+    let collection = db.collection('users').get();
+    collection
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            // html = `
+            // <tr>
+            //     <th scope="row">${doc.id}</th>
+            //     <td>${doc.data().nick}</td>
+            //     <td>${doc.data().name}</td>
+            //     <td>${doc.data().mail}</td>
+            // </tr>
+            // `;
+            nicks.push(doc.data().nick);
+            names.push(doc.data().nombre);
+            mails.push(doc.data().mail);
+            
+            
+        });
+        //console.log(nicks,names,mails);
+        
+    });
+    return tabla = ['Luis',
+        'Pepe']
+
 }
 
-//Función para obtener todas las colecciones que se llamen igual
-
-function getCollectionAll(){ 
-
-    
-}
 
 //Instrucción para listar las colecciones
 // usersRef.doc('IvanVa').listCollections()

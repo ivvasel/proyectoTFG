@@ -30,8 +30,17 @@ app.get('/menu',(req,res) =>{
 } );
 
 app.get('/workout',(req,res) =>{
+    tabla = firestore.getUser('IvanVa');
+    console.log();
+    res.render('workout', {
+        tabla
+    });
+    
+});
 
-    res.render('workout');
+app.get('/workout/add', (req,res) => {
+
+    res.render('addTabla');
 });
 
 //////////////////////////////////////////////////////////
