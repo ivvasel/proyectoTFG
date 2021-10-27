@@ -1,16 +1,5 @@
 
-
-// Leer tabla de ejercicios
-var tabla = document.getElementById('tabla');
-// tabla.innerHTML = '';
-
-// tabla.innerHTML += `
-// <tr>
-//       <th scope="row">1</th>
-//       <td>Mark</td>
-//       <td>Otto</td>
-//       <td>@mdo</td>
-//     </tr>`
+dia = 0;
 
 function addDia (){
     //Obtenemos la fila y la longitud de las columnas
@@ -33,11 +22,39 @@ function addDia (){
     selectDia(dias);    
 }
 
+function delDia () {
+    var diaText = document.getElementById("diaSelected");
+    //Obtengo el dia a partir del texto
+    var texto = diaText.textContent;
+    var parts = texto.split(" ");
+    var dia=parts[1]; // Guardamos el dia que hemos borrado
+
+    //Obtenemos la fila
+    let row = document.getElementById('filaDias');
+    var l = row.children.length-1;
+
+    // Borramos todos los numeros para ordenarlos de nuevo
+    for(var i=0; i<l; i++){
+        row.deleteCell(0); // eliminados el dia seleccionado
+    }  
+
+
+    //Generamos los dias en orden
+    for(var i=0; i<l-1; i++){
+        addDia(); // eliminados el dia seleccionado
+    }
+    selectDia(dia-1);
+
+}
 
 
 function selectDia(j){
-    console.log("selectDia:"+ j );
 
     var diaText = document.getElementById("diaSelected");
-    diaText.innerHTML="Dia " + j; 
+    if (j<=1){
+        diaText.innerHTML="Dia " + 1;
+    }else{
+        diaText.innerHTML="Dia " + j;
+    }
+    
 }
