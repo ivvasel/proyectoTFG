@@ -59,9 +59,8 @@ function selectDia(j){
 }
 
 function addSerie(){
-    var serie = document.getElementById("series");
-    var numSeries = serie.children.length +1;
-    console.log(numSeries);
+    var series = document.getElementById("series");
+    var numSeries = series.children.length +1;
     
     //Creamos el contenedor div
     var newSerie = document.createElement("div");
@@ -81,6 +80,16 @@ function addSerie(){
     //Añadimos el div al doc
     newSerie.appendChild(inputSeries);
     newSerie.appendChild(inputRepes);
-    serie.appendChild(newSerie);
+    series.appendChild(newSerie);
     
+}
+
+function delSerie(){
+    var seriesDiv = document.getElementById("series");
+    var numSeries = series.children.length;
+    var lastSerie = seriesDiv.lastElementChild;
+    //Evitamos que se borre la serie 1
+    if (numSeries > 1){
+        seriesDiv.removeChild(lastSerie);
+    } 
 }
