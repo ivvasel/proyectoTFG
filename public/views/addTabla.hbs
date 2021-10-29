@@ -19,12 +19,34 @@
 </div>
 <div>
     <h4 id="diaSelected">Dia 1</h4>
-    <button onclick="delDia()">-</button> 
+    <button onclick=delDia()>-</button> 
     
 </div>
 <div>
-    <input type="ejercicio1" name="ejercicio1" placeholder="Ejercicio1" class="form-control">
+    <div>
+        <input type="ejercicio" name="ejercicio" placeholder="Ejercicio" class="form-control">
+    </div>
+    <div id="series">
+        <div>
+            <input type="text" name="serie1" placeholder="Serie 1" class="form-control">
+            <input type="text" name="repes1" placeholder="Repeticiones" class="form-control">
+            <button onclick=addSerie()>+</button>
+        </div>  
 
+
+    </div>
+    <div>
+        <input type="text" name="intensidad" placeholder="Intensidad" class="form-control">
+    </div>
+    <div>
+        <input type="text" name="descanso" placeholder="Descanso" class="form-control">
+    </div>
+    
+</div>
+<div>
+    <table>
+        
+    </table>
 </div>
 <script src="../js/workout.js"></script>
 {{> footer}}
