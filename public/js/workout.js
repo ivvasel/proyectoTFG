@@ -64,21 +64,14 @@ function addSerie(){
     
     //Creamos el contenedor div
     var newSerie = document.createElement("div");
-    var inputSeries = document.createElement("input");
     var inputRepes = document.createElement("input");
-
-    inputSeries.setAttribute("type", "text");
-    inputSeries.setAttribute("name", "serie"+numSeries);
-    inputSeries.setAttribute("placeholder", "Serie "+numSeries);
-    inputSeries.setAttribute("class", "form-control");
 
     inputRepes.setAttribute("type", "text");
     inputRepes.setAttribute("name", "repes"+numSeries);
-    inputRepes.setAttribute("placeholder", "Repeticiones");
+    inputRepes.setAttribute("placeholder", "Repeticiones Serie "+numSeries);
     inputRepes.setAttribute("class", "form-control");
 
     //Añadimos el div al doc
-    newSerie.appendChild(inputSeries);
     newSerie.appendChild(inputRepes);
     series.appendChild(newSerie);
     
