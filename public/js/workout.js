@@ -22,9 +22,7 @@ function addDia (){
     newCell.appendChild(newButton);
 
     //Seleccionar el dia añadido
-    selectDia(dias);
-    //Creamos la variable de session para guardar los ejercicios proximamente
-    //sessionStorage.setItem("Dia"+Dia , []);    
+    selectDia(dias); 
 }
 
 function delDia () {
@@ -58,6 +56,7 @@ function selectDia(j){
     var diaText = document.getElementById("diaSelected");
     if (j<=1){
         diaText.innerHTML="Dia " + 1;
+        j=1;
     }else{
         diaText.innerHTML="Dia " + j;
     }
@@ -125,32 +124,97 @@ function addEjercicio(){
     //Ejecutamos saveEjercicio
     saveEjercicio(newEjercicio);
     //Ejecutamos printEjercicio
+    printEjercicios();
 }
 
-function printEjercicio(ejercicio, repes, intensidad,descanso,pesoMin) {
-    
-}
 function saveEjercicio(newEjercicio) {
 
     //Comprobamos que no haya una variable guardada con ese nombre
-    if(sessionStorage.getItem('Dia'+Dia) == null){        
+    if(sessionStorage.getItem('Dia'+Dia) == null){  
+
         //Creamos  un sessionStorage del dia seleccionado
         sessionStorage.setItem("Dia"+Dia , JSON.stringify([]));
         console.log("No Existe");
     }else{
-        console.log("Existe");
-    }
+        console.log("Existe");    }
     
 
+    //Obtenemos la variable de session, convertimos a array y añadimos el nuevo ejercicio
     var dia = sessionStorage.getItem('Dia'+Dia);
-    dia = JSON.parse(dia);
-    // dia = JSON.parse(dia);
-    
+    dia = JSON.parse(dia);    
     dia.push(newEjercicio);
-    console.log(dia);       
 
-    // //Utilizamos sessionStorage para guardar daJtos
+    // //Utilizamos sessionStorage para guardar los datos de cada dia
     dia = JSON.stringify(dia);
     sessionStorage.setItem("Dia"+Dia,dia);
+}
 
+
+function printEjercicios(){
+    var divEjercicios = document.getElementById("lista");
+    //Vacia la lista anteriror del HTML
+    divEjercicios.innerHTML="";
+    var listaEjercicios = sessionStorage.getItem("Dia"+Dia);
+    
+    listaEjercicios = JSON.parse(listaEjercicios);
+    
+    listaEjercicios.forEach( e => {
+        //Obtenemos variables de cada entrenamiento
+        nombre = e.nombre;
+        repes = e.repes;
+        intensidad = e.intensidad;
+        pesoMin = e.pesoMin;
+        rest = e.rest;
+
+        //Creamos el contenedor individual de cada ejercicio
+        var newDiv = document.createElement("div");
+        var tabla = document.createElement("table");
+        var thead_tr = document.createElement("tr");
+        var thead = document.createElement("thead");
+        var datos = document.createElement("tr");
+        var ejer_thead = document.createElement("th");
+        var set_thead = document.createElement("th");
+        var ejer = document.createElement("th");
+        var set= document.createElement("th");
+
+        var parr = document.createElement("p");
+        var titulo = document.createElement("h4");
+
+
+
+
+        var nombretxt = document.createTextNode(nombre);
+        var repestxt = document.createTextNode(repes.length);
+        var ejer_thead_text = document.createTextNode("Ejercicio");
+        var set_thead_text = document.createTextNode("Set");
+
+        //Relacionamos los datos
+        ejer.appendChild(nombretxt);
+        set.appendChild(repestxt);
+
+
+        //Relacionamos el texto del encabezado de las tablas
+        ejer_thead.appendChild(ejer_thead_text);
+        set_thead.appendChild(set_thead_text);
+        // parr.appendChild(intensidadtxt);
+        // parr.appendChild(pesoMintxt);
+        // parr.appendChild(resttxt);
+
+
+        //Relacionamos cada columna del encabezado
+        
+        thead_tr.appendChild(ejer_thead);
+        thead_tr.appendChild(set_thead);
+
+        thead.appendChild(thead_tr);
+
+        datos.appendChild(ejer);
+        datos.appendChild(set);
+
+        tabla.appendChild(thead);
+        tabla.appendChild(datos);
+        newDiv.appendChild(tabla);
+
+        divEjercicios.appendChild(newDiv);
+    });
 }
