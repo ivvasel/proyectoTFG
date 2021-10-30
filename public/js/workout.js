@@ -1,5 +1,8 @@
+var Dia = 1;
+var Plan = [];
 
-dia = 0;
+sessionStorage.setItem("Plan", JSON.stringify(Plan));
+
 
 function addDia (){
     //Obtenemos la fila y la longitud de las columnas
@@ -19,7 +22,9 @@ function addDia (){
     newCell.appendChild(newButton);
 
     //Seleccionar el dia añadido
-    selectDia(dias);    
+    selectDia(dias);
+    //Creamos la variable de session para guardar los ejercicios proximamente
+    //sessionStorage.setItem("Dia"+Dia , []);    
 }
 
 function delDia () {
@@ -44,6 +49,7 @@ function delDia () {
         addDia(); // eliminados el dia seleccionado
     }
     selectDia(dia-1);
+    //sessionStorage.removeItem("Dia"+dia);
 
 }
 
@@ -55,6 +61,7 @@ function selectDia(j){
     }else{
         diaText.innerHTML="Dia " + j;
     }
+    Dia = j;
     
 }
 
@@ -67,7 +74,7 @@ function addSerie(){
     var inputRepes = document.createElement("input");
 
     inputRepes.setAttribute("type", "text");
-    inputRepes.setAttribute("name", "repes"+numSeries);
+    inputRepes.setAttribute("name", "repes");
     inputRepes.setAttribute("placeholder", "Repeticiones Serie "+numSeries);
     inputRepes.setAttribute("class", "form-control");
 
@@ -85,4 +92,65 @@ function delSerie(){
     if (numSeries > 1){
         seriesDiv.removeChild(lastSerie);
     } 
+}
+
+function addEjercicio(){
+
+    var ejercicio = document.getElementsByName("ejercicio")[0].value;
+
+    var intensidad = document.getElementsByName("intensidad")[0].value;
+
+    var descanso = document.getElementsByName("descanso")[0].value;
+
+    var pesoMin = document.getElementsByName("pesomin")[0].value;
+
+    //Obtenemos el numero de series
+    var numSeries = document.getElementById("series").children.length;
+    var repes = [];
+
+    for (var i=1; i <= numSeries; i++){
+
+        var serie = document.getElementsByName("repes")[i-1].value;
+        repes.push(serie);
+    }
+
+    const newEjercicio = {
+        nombre: ejercicio,
+        intensidad: intensidad,
+        repes: repes,
+        rest: descanso,
+        pesoMin: pesoMin
+    }
+
+    //Ejecutamos saveEjercicio
+    saveEjercicio(newEjercicio);
+    //Ejecutamos printEjercicio
+}
+
+function printEjercicio(ejercicio, repes, intensidad,descanso,pesoMin) {
+    
+}
+function saveEjercicio(newEjercicio) {
+
+    //Comprobamos que no haya una variable guardada con ese nombre
+    if(sessionStorage.getItem('Dia'+Dia) == null){        
+        //Creamos  un sessionStorage del dia seleccionado
+        sessionStorage.setItem("Dia"+Dia , JSON.stringify([]));
+        console.log("No Existe");
+    }else{
+        console.log("Existe");
+    }
+    
+
+    var dia = sessionStorage.getItem('Dia'+Dia);
+    dia = JSON.parse(dia);
+    // dia = JSON.parse(dia);
+    
+    dia.push(newEjercicio);
+    console.log(dia);       
+
+    // //Utilizamos sessionStorage para guardar daJtos
+    dia = JSON.stringify(dia);
+    sessionStorage.setItem("Dia"+Dia,dia);
+
 }
