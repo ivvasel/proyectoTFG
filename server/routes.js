@@ -62,5 +62,10 @@ app.post('/login', (req,res) =>{
 
 });
 
+app.post('/workout/add', (req,res) => {
+
+    res.status(200).send();
+    console.log(req.body.length);
+});
 
 module.exports = app;

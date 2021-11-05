@@ -1,7 +1,7 @@
 var Dia = 1;
-var Plan = [];
+var plan = [];
 
-sessionStorage.setItem("Plan", JSON.stringify(Plan));
+sessionStorage.setItem("plan", JSON.stringify(plan));
 
 
 function addDia (){
@@ -61,6 +61,8 @@ function selectDia(j){
         diaText.innerHTML="Dia " + j;
     }
     Dia = j;
+
+    printEjercicios();
     
 }
 
@@ -96,12 +98,16 @@ function delSerie(){
 function addEjercicio(){
 
     var ejercicio = document.getElementsByName("ejercicio")[0].value;
+    document.getElementsByName("ejercicio")[0].value = "";
 
     var intensidad = document.getElementsByName("intensidad")[0].value;
+    document.getElementsByName("intensidad")[0].value = "";
 
     var descanso = document.getElementsByName("descanso")[0].value;
+    document.getElementsByName("descanso")[0].value = "";
 
     var pesoMin = document.getElementsByName("pesomin")[0].value;
+    document.getElementsByName("pesomin")[0].value = "";
 
     //Obtenemos el numero de series
     var numSeries = document.getElementById("series").children.length;
@@ -110,6 +116,7 @@ function addEjercicio(){
     for (var i=1; i <= numSeries; i++){
 
         var serie = document.getElementsByName("repes")[i-1].value;
+        document.getElementsByName("repes")[i-1].value = "";
         repes.push(serie);
     }
 
@@ -136,13 +143,21 @@ function saveEjercicio(newEjercicio) {
         sessionStorage.setItem("Dia"+Dia , JSON.stringify([]));
         console.log("No Existe");
     }else{
-        console.log("Existe");    }
+        console.log("Existe");    
+    }
     
-
     //Obtenemos la variable de session, convertimos a array y añadimos el nuevo ejercicio
     var dia = sessionStorage.getItem('Dia'+Dia);
     dia = JSON.parse(dia);    
     dia.push(newEjercicio);
+
+    //Guardamos el ejercicio en el dia correspondiente
+    plan = sessionStorage.getItem("plan");
+    plan = JSON.parse(plan);
+    //Guardamos en la posición del día seleccionado
+    plan[Dia-1] = dia; 
+    plan = JSON.stringify(plan);
+    sessionStorage.setItem("plan", plan);
 
     // //Utilizamos sessionStorage para guardar los datos de cada dia
     dia = JSON.stringify(dia);
@@ -217,4 +232,16 @@ function printEjercicios(){
 
         divEjercicios.appendChild(newDiv);
     });
+}
+
+function sendDB(){
+    datos = JSON.parse(sessionStorage.getItem("plan"));
+
+    fetch("http://localhost:3000/workout/add", {
+        method: 'POST',
+        body: JSON.stringify(datos),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+    }).then(res =>{console.log(res)})
 }
