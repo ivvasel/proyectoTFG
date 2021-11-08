@@ -32,9 +32,7 @@ app.get('/menu',(req,res) =>{
 app.get('/workout',(req,res) =>{
     tabla = firestore.getUser('IvanVa');
     console.log();
-    res.render('workout', {
-        tabla
-    });
+    res.render('workout');
     
 });
 
@@ -63,9 +61,10 @@ app.post('/login', (req,res) =>{
 });
 
 app.post('/workout/add', (req,res) => {
-
     res.status(200).send();
-    console.log(req.body.length);
+    user = "IvanVa"
+    firestore.crearRutina(req.body, user);
+    
 });
 
 module.exports = app;

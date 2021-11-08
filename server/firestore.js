@@ -84,6 +84,70 @@ function getUser (nick,res){
 
 }
 
+function crearRutina(body, user) {
+    // console.log(body);
+    var numDia = 1;
+    var numSerie =1;
+    var fecha = new Date(Date.now());
+    console.log(fecha);
+
+    activado = {
+        Activo: true,
+        Fecha: fecha
+    }
+    //Creamos el mes y su referencia
+    var mesRef = db.collection('users').doc('TESTING').collection('WorkOut').doc();
+    mesRef.set(activado); //Añadimos campos de datos al mes Activo y fecha
+
+    //Creamos la semana y referencimos
+    var semRef;
+
+    body.forEach(dia=> {
+
+        //Creamos la referencia a la semana para cada día
+        semRef = mesRef.collection('dia'+numDia).doc();
+        semRef.set(activado);
+        
+        dia.forEach(ejer => {
+            nombre = ejer.nombre;
+            intensidad = ejer.intensidad;
+            repes = ejer.repes;
+            rest = ejer.rest;
+            pesoMin = ejer.pesoMin;
+            numSerie = 1;
+
+            repes.forEach(serie => {
+
+                data = {
+                    Peso: "",
+                    Reps: serie
+                }                
+                //Añadimos las series de cada ejercicio
+                
+                semRef.collection('ejercicios').doc(nombre).collection('series').doc('serie'+numSerie).set(data);
+
+                numSerie ++;
+            }); // FIN serie
+
+            //Añadimos campos al ejercicio (Datos del ejercicio)
+            semRef.collection('ejercicios').doc(nombre).set({
+                Rest: rest,
+                Intensidad: intensidad,
+                Reps: repes,
+                Series: repes.length,
+                PesoMin: pesoMin,
+                PesoSesion: 0
+
+            });
+
+        });//FIN EJERCICIO
+
+        numDia ++; // Sumamos la variable para saber en que dia estamos
+    });//FIN DIA
+    
+
+
+}
 
 //Instrucción para listar las colecciones
 // usersRef.doc('IvanVa').listCollections()
@@ -102,3 +166,4 @@ function getUser (nick,res){
 //Exportaciones
 exports.crearUser = crearUser;
 exports.getUser = getUser;
+exports.crearRutina = crearRutina;
