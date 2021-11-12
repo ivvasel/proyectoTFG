@@ -47,9 +47,9 @@ function verRutinaActiva(user){
         querySnapshot.forEach((activo) => {
             //Obtengo el id de la rutina activa
             console.log(activo.id);
-            mes = userRef.doc(activo.id).get().then(dias =>{
+            mes = userRef.doc(activo.id).listCollections().then(dias =>{
+                console.log(dias);
             });
-            console.log(mes);
 
             
         });
