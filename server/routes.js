@@ -30,8 +30,8 @@ app.get('/menu',(req,res) =>{
 } );
 
 app.get('/workout',(req,res) =>{
-    tabla = firestore.getUser('IvanVa');
-    console.log();
+    user = "TESTING"
+    firestore.verRutinaActiva(user);
     res.render('workout');
     
 });
@@ -62,7 +62,7 @@ app.post('/login', (req,res) =>{
 
 app.post('/workout/add', (req,res) => {
     res.status(200).send();
-    user = "IvanVa"
+    user = "TESTING"
     firestore.crearRutina(req.body, user);
     
 });

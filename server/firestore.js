@@ -12,9 +12,8 @@ var prueba = {
     Ejercicio: 'Press MIlitar',
     Repes: 1
 }
-const user = 'IvanVa';
+const user = 'TESTING';
 // Sentencias NoSQL
-const usersRef = db.collection('users');
 
 
 
@@ -35,20 +34,30 @@ function crearTabla(/*req*/) {
     db.collection('users').doc('Prueba').collection('workouts').doc('mes1').collection('dia1').add(prueba);
 }
 
-function verTabla(){
+function verRutinaActiva(user){
 
-    usersRef.doc('IvanVa')
-    .collection('WorkOut').doc('mes1')
-        .listCollections()
-        .then(collections =>{
-            for (let collection of collections){ // obtiene colecion de coleciones
-                console.log(`Found collection with id: ${collection.id}`);
-                console.log(`Patch: ${collection._settings}`);
-            }
+    const userRef = db.collection('users').doc(user).collection('WorkOut');
+    const mesRef = userRef.where('Activo', '==', true).get();
+    if (mesRef.empty) {
+        console.log('No hay ninguna rutina activa');
+        return;
+    }
+
+    mesRef.then(querySnapshot => {
+        querySnapshot.forEach((activo) => {
+            //Obtengo el id de la rutina activa
+            console.log(activo.id);
+            mes = userRef.doc(activo.id).get().then(dias =>{
+            });
+            console.log(mes);
+
+            
         });
-}
 
-function addEjercicio (){
+        
+    });   
+
+
 
 }
 
@@ -96,7 +105,7 @@ function crearRutina(body, user) {
         Fecha: fecha
     }
     //Creamos el mes y su referencia
-    var mesRef = db.collection('users').doc('TESTING').collection('WorkOut').doc();
+    var mesRef = db.collection('users').doc(user).collection('WorkOut').doc();
     mesRef.set(activado); //Añadimos campos de datos al mes Activo y fecha
 
     //Creamos la semana y referencimos
@@ -167,3 +176,4 @@ function crearRutina(body, user) {
 exports.crearUser = crearUser;
 exports.getUser = getUser;
 exports.crearRutina = crearRutina;
+exports.verRutinaActiva = verRutinaActiva;

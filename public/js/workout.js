@@ -1,7 +1,12 @@
 var Dia = 1;
-var plan = [];
 
-sessionStorage.setItem("plan", JSON.stringify(plan));
+if ( (sessionStorage.getItem('plan'))){
+
+}else{
+    var plan = [];
+    sessionStorage.setItem("plan", JSON.stringify(plan));
+    
+}
 
 
 function addDia (){
