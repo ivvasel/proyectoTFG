@@ -31,7 +31,7 @@ app.get('/menu',(req,res) =>{
 
 app.get('/workout',(req,res) =>{
     user = "TESTING"
-    firestore.verRutinaActiva(user);
+    //firestore.verRutinaActiva(user);
     res.render('workout');
     
 });
@@ -63,6 +63,7 @@ app.post('/login', (req,res) =>{
 app.post('/workout/add', (req,res) => {
     res.status(200).send();
     user = "TESTING"
+    console.log("Rutina guardada");
     firestore.crearRutina(req.body, user);
     
 });

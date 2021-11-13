@@ -102,6 +102,9 @@ function delSerie(){
 
 function addEjercicio(){
 
+    const modal = document.getElementById("modal-workout");
+    modal.style.display = "none";
+
     var ejercicio = document.getElementsByName("ejercicio")[0].value;
     document.getElementsByName("ejercicio")[0].value = "";
 
@@ -238,6 +241,17 @@ function printEjercicios(){
         divEjercicios.appendChild(newDiv);
     });
 }
+
+function modalForm (){
+    const form =document.getElementById("modal-workout");
+    form.style.display = "block";
+}
+window.onclick = function(event) {
+    const modal = document.getElementById("modal-workout");
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  } 
 
 function sendDB(){
     datos = JSON.parse(sessionStorage.getItem("plan"));
