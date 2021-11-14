@@ -102,6 +102,9 @@ function delSerie(){
 
 function addEjercicio(){
 
+    const modal = document.getElementById("modal-workout");
+    modal.style.display = "none";
+
     var ejercicio = document.getElementsByName("ejercicio")[0].value;
     document.getElementsByName("ejercicio")[0].value = "";
 
@@ -171,73 +174,68 @@ function saveEjercicio(newEjercicio) {
 
 
 function printEjercicios(){
-    var divEjercicios = document.getElementById("lista");
+    var divLista = document.getElementById("lista");
     //Vacia la lista anteriror del HTML
-    divEjercicios.innerHTML="";
+    divLista.innerHTML="";
     var listaEjercicios = sessionStorage.getItem("Dia"+Dia);
     
     listaEjercicios = JSON.parse(listaEjercicios);
     
     listaEjercicios.forEach( e => {
         //Obtenemos variables de cada entrenamiento
-        nombre = e.nombre;
-        repes = e.repes;
-        intensidad = e.intensidad;
-        pesoMin = e.pesoMin;
-        rest = e.rest;
+        const nombre = e.nombre;
+        const repes = e.repes;
+        const intensidad = e.intensidad;
+        const pesoMin = e.pesoMin;
+        const rest = e.rest;
 
-        //Creamos el contenedor individual de cada ejercicio
-        var newDiv = document.createElement("div");
-        var tabla = document.createElement("table");
-        var thead_tr = document.createElement("tr");
-        var thead = document.createElement("thead");
-        var datos = document.createElement("tr");
-        var ejer_thead = document.createElement("th");
-        var set_thead = document.createElement("th");
-        var ejer = document.createElement("th");
-        var set= document.createElement("th");
-
-        var parr = document.createElement("p");
-        var titulo = document.createElement("h4");
-
-
-
-
-        var nombretxt = document.createTextNode(nombre);
-        var repestxt = document.createTextNode(repes.length);
-        var ejer_thead_text = document.createTextNode("Ejercicio");
-        var set_thead_text = document.createTextNode("Set");
-
-        //Relacionamos los datos
-        ejer.appendChild(nombretxt);
-        set.appendChild(repestxt);
-
-
-        //Relacionamos el texto del encabezado de las tablas
-        ejer_thead.appendChild(ejer_thead_text);
-        set_thead.appendChild(set_thead_text);
-        // parr.appendChild(intensidadtxt);
-        // parr.appendChild(pesoMintxt);
-        // parr.appendChild(resttxt);
-
-
-        //Relacionamos cada columna del encabezado
+        //Creamos los elementos de cada tarjeta
+        var newCard = document.createElement("div");
         
-        thead_tr.appendChild(ejer_thead);
-        thead_tr.appendChild(set_thead);
+        var newCardTitulo = document.createElement("div");
+        var newCardInfo = document.createElement("div");
 
-        thead.appendChild(thead_tr);
+        var pSerie = document.createElement("p");
+        pSerie.innerHTML = repes;
+        var pIntensidad = document.createElement("p");
+        pIntensidad.innerHTML = intensidad;
+        var pPesoMin = document.createElement("p");
+        pPesoMin.innerHTML = pesoMin;
+        var pRest = document.createElement("p");
+        pRest.innerHTML = rest;
 
-        datos.appendChild(ejer);
-        datos.appendChild(set);
+        // Añadimos CadTitulo
+        newCardTitulo.innerHTML=nombre;
 
-        tabla.appendChild(thead);
-        tabla.appendChild(datos);
-        newDiv.appendChild(tabla);
 
-        divEjercicios.appendChild(newDiv);
+        // Relacionamos CardInfo
+        newCardInfo.appendChild(pSerie);
+        newCardInfo.appendChild(pIntensidad);
+        newCardInfo.appendChild(pPesoMin);
+        newCardInfo.appendChild(pRest);
+        
+
+
+        newCard.appendChild(newCardTitulo);
+        newCard.appendChild(newCardInfo);
+        divLista.appendChild(newCard);
+        
+        newCard.classList.add("card");
+        newCardTitulo.classList.add("card-titulo");
+        newCardInfo.classList.add("card-info");
     });
 }
+
+function modalForm (){
+    const form =document.getElementById("modal-workout");
+    form.style.display = "block";
+}
+window.onclick = function(event) {
+    const modal = document.getElementById("modal-workout");
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  } 
 
 function sendDB(){
     datos = JSON.parse(sessionStorage.getItem("plan"));

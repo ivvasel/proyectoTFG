@@ -4,52 +4,65 @@
 <link rel="stylesheet" href="../css/menu.css">
 
 <body>
-{{> header}}
-<div>
-    <h3>Días de entrenamiento</h3>
-    <table>
-        <tbody id="tablaDias">
-            <tr id='filaDias'>
-                <td><button id = "Boton1"onclick=selectDia(1)>1</button></td>
-                <td><button onclick=addDia()>+</button></td>
-            </tr>
-        </tbody>
-    </table>
-    <button onclick=sendDB()> Guardar Rutina </button>
+    {{> header}}
+    <div class="container-mid">
+        <div id="dias-container">
+            <div id="dias-top">
+                <h5>Días de entrenamiento</h5>
+                <button onclick=sendDB()> Guardar Rutina </button>
+            </div>
+            <div id="table-container">
+                <table>
+                    <tbody id="tablaDias">
+                        <tr id='filaDias'>
+                            <td><button id="Boton1" onclick=selectDia(1)>1</button></td>
+                            <td><button onclick=addDia()>+</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-</div>
-<div>
-    <h4 id="diaSelected">Dia 1</h4>
-    <button onclick=delDia()>-</button>     
-    
-</div>
-<div>
-    <div>
-        <input type="text" name="ejercicio" placeholder="Ejercicio" class="form-control">
+
+        </div>
+        <div id="selected-container">
+            <div id="selected-container-top">
+                <h4 id="diaSelected">Dia 1</h4>
+                <button onclick=delDia()>-</button>
+                <button onclick="modalForm()">Añadir Ejercicio</button>
+            </div>
+            <div id="modal-workout" class="modal">
+                <div class="modal-content">
+                    <div>
+                        <input type="text" name="ejercicio" placeholder="Ejercicio" class="form-control">
+                    </div>
+                    <div id="series">
+                        <div>
+                            <input type="text" name="repes" placeholder="Repeticiones Serie 1" class="form-control">
+                            <button onclick=addSerie()>+</button>
+                            <button onclick=delSerie()>-</button>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="text" name="intensidad" placeholder="Intensidad" class="form-control">
+                    </div>
+                    <div>
+                        <input type="text" name="pesomin" placeholder="Peso Minimo" class="form-control">
+                    </div>
+                    <div>
+                        <input type="text" name="descanso" placeholder="Descanso" class="form-control">
+                    </div>
+                    <div>
+                        <button onclick=addEjercicio()>Guardar</button>
+                    </div>
+                </div>
+
+            </div>
+            <div id="lista">
+                
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="series">
-        <div>            
-            <input type="text" name="repes" placeholder="Repeticiones Serie 1" class="form-control">
-            <button onclick=addSerie()>+</button>
-            <button onclick=delSerie()>-</button>
-        </div>  
-    </div>
-    <div>
-        <input type="text" name="intensidad" placeholder="Intensidad" class="form-control">
-    </div>
-    <div>
-        <input type="text" name="pesomin" placeholder="Peso Minimo" class="form-control">
-    </div>
-    <div>
-        <input type="text" name="descanso" placeholder="Descanso" class="form-control">
-    </div>
-    <div>
-        <button onclick=addEjercicio()>Añadir Ejercicio</button>
-    </div>
-    
-</div>
-<div id="lista" class="container">
-    
-</div>
-<script src="../js/workout.js"></script>
-{{> footer}}
+    {{> nav}}
+    <script src="../js/workout.js"></script>
+    {{> footer}}
