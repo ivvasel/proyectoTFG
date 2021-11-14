@@ -100,7 +100,6 @@ header {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    max-height: 30%;
 }
 
 #dias-container h4 {
@@ -140,6 +139,7 @@ table {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #selected-container-top {
@@ -191,25 +191,28 @@ table {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex-wrap: wrap;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
     min-width: 55%;
     border-radius: 10px;
     border: 1px solid black;
     padding: 2px;
+    margin-bottom: 5px;
+
 }
 
 .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-#card-titulo {
+.card-titulo {
     font-size: x-large;
     font-weight: bold;
     height: 60%;
 }
 
-#card-info ,p{
+.card-info ,p{
     display: flex;
     justify-content: space-around;
     align-items: flex-end;
