@@ -7,7 +7,10 @@
     {{> header}}
     <div class="container-mid">
         <div id="dias-container">
-            <h3>Días de entrenamiento</h3>
+            <div id="dias-top">
+                <h5>Días de entrenamiento</h5>
+                <button onclick=sendDB()> Guardar Rutina </button>
+            </div>
             <div id="table-container">
                 <table>
                     <tbody id="tablaDias">
@@ -18,7 +21,7 @@
                     </tbody>
                 </table>
             </div>
-            <button onclick=sendDB()> Guardar Rutina </button>
+
 
         </div>
         <div id="selected-container">
@@ -54,8 +57,18 @@
                 </div>
 
             </div>
-            <div id="lista" class="container">
-
+            <div id="lista">
+                <div class="card">
+                    <div id="card-titulo">
+                        Jalon al Pecho agarre supino con tirolinadfdssfd
+                    </div>
+                    <div id="card-info">
+                        <p>12x 8x 8x</p>
+                        <p>RIR4</p>
+                        <p>65Kg</p>
+                        <p>1'30''</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
