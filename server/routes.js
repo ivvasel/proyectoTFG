@@ -31,7 +31,8 @@ app.get('/menu',(req,res) =>{
 
 app.get('/workout',(req,res) =>{
     user = "TESTING"
-    //firestore.verRutinaActiva(user);
+    resDatos = firestore.verRutinaActiva(user);
+    console.log(resDatos)
     res.render('workout');
     
 });
