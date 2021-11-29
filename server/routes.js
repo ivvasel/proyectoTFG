@@ -29,10 +29,10 @@ app.get('/menu',(req,res) =>{
     res.render('menu');
 } );
 
-app.get('/workout',(req,res) =>{
+app.get('/workout', async(req,res) =>{
     user = "TESTING"
-    resDatos = firestore.verRutinaActiva(user);
-    console.log(resDatos)
+    resDatos = await firestore.verRutinaActiva(user);
+    // console.log(resDatos)
     res.render('workout');
     
 });

@@ -1,4 +1,5 @@
 //Inicializamos Cloud Firestore Database
+const { query } = require('express');
 const admin = require('firebase-admin');
 const serviceAccount = require('../service-account.json');
 admin.initializeApp({
@@ -35,74 +36,49 @@ function crearTabla(/*req*/) {
 }
 
 function verRutinaActiva(user) {
-    var rutina = [];
 
+    const sectionRef = db.collection('users').doc(user).collection('WorkOut');
+    const mesActivo = sectionRef.where('Activo', '==', true).get(); //DocumentRefenciado y utilizamos el get
 
-    const userRef = db.collection('users').doc(user).collection('WorkOut');
-    const mesRef = userRef.where('Activo', '==', true).get(); //DocumentRefenciado y utilizamos el get
-    if (mesRef.empty) {
-        console.log('No hay ninguna rutina activa');
-        return;
-    }
+    const rutina = mesActivo.then(querySnapshot => {
+        var mes = querySnapshot.docs[0]; //Solo hay un único mes activo
+        return mes.ref;
+    }).then(mesRef => mesRef.listCollections())
 
-    // mesRef.then(console.log);
-    mesRef.then(querySnapshot => {
-        querySnapshot.forEach((mes) => {
-
-            //Obtener la lista de los dias que hay 
-            mes.ref.listCollections().then(listaDias => {
-                console.log("listaDias")
-                //Recorremos el array para obtener cada dia individualmente
-                listaDias.forEach(diaRef => {
-                    console.log("Dia")
-                    //Obtenemos la lista de las semanas que tiene cada dia
-                    diaRef.listDocuments().then(listaSemanas => {
-                        console.log("listaSemanas")
-                        
-                        //Recorremos el array de Semanas para obtener cada semana
-                        listaSemanas.forEach(semanaRef => {
-                            //Con la referencia obtenemos los valores de la semana 
-                            semanaRef.get().then(semana => {
-                                //Comprobamos si la semana no esta activa
-                                if (!semana.data().Activo) {
-                                    return;
-                                }
-
-                                //Obtenemos los ejercicios que corresponden a la semana seleccionada (1 dia en concreto)
-                                semanaRef.collection('ejercicios').get().then(ejercicios => {
-                                    var dia = []; // Variable para almacenar los ejercicios de cada dia - Se vacia cada nuevo día
-                                    // Obtenemos cada ejercicio individualmente
-                                    ejercicios.forEach(ejercicio => {
-                                        const nombre = ejercicio.id;
-                                        const campos = ejercicio.data();
-                                        
-                                        //Creamos la variable datos para almacenar todos los valores necesarios
-                                        const datos = {
-                                            nombre: nombre,
-                                            campos: campos
-
-                                        }
-                                        dia.push(datos); // Introducimos cada entrenamiento en el dia correspondiente
-                                        
-
-
-                                    }); //Fin de recorrer cada ejercicio
-                                    rutina.push(dia);
-                                }); // Fin de recorrer la semana referenciada
-                                // rutina.push(dia) // Introducimos el dia entero en la rutina
-                                
-                            }); //Fin de la semana
-                        });
-                    });
-                });
-            });
+    .then(listaDiasRef => {        
+        var listaDias = listaDiasRef.map(diaRef =>{ //Array con los dias
+            return diaRef.listDocuments(); //Array con la listaSemana sin resolver
         });
+        return Promise.all(listaDias);
+    }).then(listaDias =>{
+        var listaSemanas = listaDias.map(listaSemanasRef =>{
+            
+            return Promise.all(listaSemanasRef.map (semanasRef=>{
+                return semanasRef.collection('ejercicios').get();
+            }))
+        })
+        return Promise.all(listaSemanas);
+
+    }).then(dias =>{
+        return dias.map(semana =>{ // Array: 1 elemento por cada dia
+
+            return semana.map(ejercicios =>{ //Array: 1 elemento por semana
+
+                return ejercicios.docs.map(ejercicio =>{ //Array: objeto por cada ejercicio 
+
+                    return {
+                        nombre: ejercicio.id,
+                        datos: ejercicio.data()
+                    }
+                })
+            })
+        })
     });
 
-
+    rutina.then(console.log);
 
 }
-
+ 
 //Funcion para obtener el Usuario conectado
 function getUser(nick, res) {
     //console.log(res);  
