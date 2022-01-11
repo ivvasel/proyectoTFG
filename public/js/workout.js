@@ -1,6 +1,7 @@
 var Dia = 1;
 
 if ( (sessionStorage.getItem('plan'))){
+    printEjercicios();
 
 }else{
     var plan = [];
@@ -71,34 +72,34 @@ function selectDia(j){
     
 }
 
-function addSerie(){
-    var series = document.getElementById("series");
-    var numSeries = series.children.length +1;
+// function addSerie(){
+//     var series = document.getElementById("series");
+//     var numSeries = series.children.length +1;
     
-    //Creamos el contenedor div
-    var newSerie = document.createElement("div");
-    var inputRepes = document.createElement("input");
+//     //Creamos el contenedor div
+//     var newSerie = document.createElement("div");
+//     var inputreps = document.createElement("input");
 
-    inputRepes.setAttribute("type", "text");
-    inputRepes.setAttribute("name", "repes");
-    inputRepes.setAttribute("placeholder", "Repeticiones Serie "+numSeries);
-    inputRepes.setAttribute("class", "form-control");
+//     inputreps.setAttribute("type", "text");
+//     inputreps.setAttribute("name", "reps");
+//     inputreps.setAttribute("placeholder", "Repeticiones Serie "+numSeries);
+//     inputreps.setAttribute("class", "form-control");
 
-    //Añadimos el div al doc
-    newSerie.appendChild(inputRepes);
-    series.appendChild(newSerie);
+//     //Añadimos el div al doc
+//     newSerie.appendChild(inputreps);
+//     series.appendChild(newSerie);
     
-}
+// }
 
-function delSerie(){
-    var seriesDiv = document.getElementById("series");
-    var numSeries = series.children.length;
-    var lastSerie = seriesDiv.lastElementChild;
-    //Evitamos que se borre la serie 1
-    if (numSeries > 1){
-        seriesDiv.removeChild(lastSerie);
-    } 
-}
+// function delSerie(){
+//     var seriesDiv = document.getElementById("series");
+//     var numSeries = series.children.length;
+//     var lastSerie = seriesDiv.lastElementChild;
+//     //Evitamos que se borre la serie 1
+//     if (numSeries > 1){
+//         seriesDiv.removeChild(lastSerie);
+//     } 
+// }
 
 function addEjercicio(){
 
@@ -107,6 +108,12 @@ function addEjercicio(){
 
     var ejercicio = document.getElementsByName("ejercicio")[0].value;
     document.getElementsByName("ejercicio")[0].value = "";
+
+    var series = document.getElementsByName("series")[0].value;
+    document.getElementsByName("series")[0].value = "";
+
+    var reps = document.getElementsByName("reps")[0].value;
+    document.getElementsByName("reps")[0].value = "";
 
     var intensidad = document.getElementsByName("intensidad")[0].value;
     document.getElementsByName("intensidad")[0].value = "";
@@ -117,21 +124,11 @@ function addEjercicio(){
     var pesoMin = document.getElementsByName("pesomin")[0].value;
     document.getElementsByName("pesomin")[0].value = "";
 
-    //Obtenemos el numero de series
-    var numSeries = document.getElementById("series").children.length;
-    var repes = [];
-
-    for (var i=1; i <= numSeries; i++){
-
-        var serie = document.getElementsByName("repes")[i-1].value;
-        document.getElementsByName("repes")[i-1].value = "";
-        repes.push(serie);
-    }
-
     const newEjercicio = {
         nombre: ejercicio,
+        series: series,
+        reps: reps,
         intensidad: intensidad,
-        repes: repes,
         rest: descanso,
         pesoMin: pesoMin
     }
@@ -184,7 +181,8 @@ function printEjercicios(){
     listaEjercicios.forEach( e => {
         //Obtenemos variables de cada entrenamiento
         const nombre = e.nombre;
-        const repes = e.repes;
+        const series = e.series;
+        const reps = e.reps;
         const intensidad = e.intensidad;
         const pesoMin = e.pesoMin;
         const rest = e.rest;
@@ -196,7 +194,9 @@ function printEjercicios(){
         var newCardInfo = document.createElement("div");
 
         var pSerie = document.createElement("p");
-        pSerie.innerHTML = repes;
+        pSerie.innerHTML = series;
+        var pReps = document.createElement("p");
+        pReps.innerHTML = reps;
         var pIntensidad = document.createElement("p");
         pIntensidad.innerHTML = intensidad;
         var pPesoMin = document.createElement("p");
@@ -210,6 +210,7 @@ function printEjercicios(){
 
         // Relacionamos CardInfo
         newCardInfo.appendChild(pSerie);
+        newCardInfo.appendChild(pReps);
         newCardInfo.appendChild(pIntensidad);
         newCardInfo.appendChild(pPesoMin);
         newCardInfo.appendChild(pRest);

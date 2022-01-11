@@ -32,7 +32,7 @@ app.get('/menu',(req,res) =>{
 app.get('/workout', async(req,res) =>{
     user = "TESTING"
     resDatos = await firestore.verRutinaActiva(user);
-    // console.log(resDatos)
+    console.log(resDatos)
     res.render('workout');
     
 });

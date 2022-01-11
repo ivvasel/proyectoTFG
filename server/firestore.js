@@ -40,44 +40,44 @@ function verRutinaActiva(user) {
     const sectionRef = db.collection('users').doc(user).collection('WorkOut');
     const mesActivo = sectionRef.where('Activo', '==', true).get(); //DocumentRefenciado y utilizamos el get
 
-    const rutina = mesActivo.then(querySnapshot => {
+    mesActivo.then(querySnapshot => {
         var mes = querySnapshot.docs[0]; //Solo hay un único mes activo
         return mes.ref;
-    }).then(mesRef => mesRef.listCollections())
-
+    })
+    .then(mesRef => mesRef.listCollections())
     .then(listaDiasRef => {        
         var listaDias = listaDiasRef.map(diaRef =>{ //Array con los dias
-            return diaRef.listDocuments(); //Array con la listaSemana sin resolver
+            return diaRef.where('Activo', '==', true).get(); //Array con la listaSemana sin resolver
         });
-        return Promise.all(listaDias);
-    }).then(listaDias =>{
-        var listaSemanas = listaDias.map(listaSemanasRef =>{
-            
-            return Promise.all(listaSemanasRef.map (semanasRef=>{
-                return semanasRef.collection('ejercicios').get();
-            }))
+        return Promise.all(listaDias); //Array con de los dias con la listaSemana resuelto
+    })
+    .then(dias =>{
+        return dias.map(dia =>{
+            const datos = dia.docs[0].data(); //Solo hay una única semana activa
+            const ejercicios = Object.values(datos);
+            var rutina = [];
+            //Devolvemos solamente los ejericios
+            for (n = 0; n<ejercicios.length -2; n++){ //SI LA SEMANA NO TIENE EJERCICIOS EL ARRAY ESTARÁ VACIO
+                var ejercicioDB = ejercicios[n];
+                var ejercicio = { //ENVIAMOS SOLAMENTE LOS DATOS DE LA DB QUE NOS INTERESAN (SOLAMENTE LOS DATOS RELACIONADOS CON EL CLIENTE)
+                    nombre: ejercicioDB.nombre,
+                    done: ejercicioDB.done,
+                    intensidad: ejercicioDB.intensidad,
+                    pesoMin: ejercicioDB.pesoMin,
+                    rest: ejercicioDB.rest,
+                    series: ejercicioDB.series
+                }
+                var refEjercicio = ejercicioDB.refEjercicio; //CREAMOS METODO PARA ACTUALIZAR LA COLECCION DE EJERCICIOS 
+
+                rutina.push(ejercicio);
+            }
+            return rutina;
         })
-        return Promise.all(listaSemanas);
+    })
 
-    }).then(dias =>{
-        return dias.map(semana =>{ // Array: 1 elemento por cada dia
-
-            return semana.map(ejercicios =>{ //Array: 1 elemento por semana
-
-                return ejercicios.docs.map(ejercicio =>{ //Array: objeto por cada ejercicio 
-
-                    return {
-                        nombre: ejercicio.id,
-                        datos: ejercicio.data()
-                    }
-                })
-            })
-        })
-    });
-
-    rutina.then(console.log);
-
+    .then(console.log);;
 }
+
  
 //Funcion para obtener el Usuario conectado
 function getUser(nick, res) {
@@ -137,33 +137,21 @@ function crearRutina(body, user) {
 
         dia.forEach(ejer => {
             nombre = ejer.nombre;
+            series = ejer.series;
+            reps = ejer.reps;
             intensidad = ejer.intensidad;
-            repes = ejer.repes;
             rest = ejer.rest;
             pesoMin = ejer.pesoMin;
-            numSerie = 1;
 
-            repes.forEach(serie => {
-
-                data = {
-                    Peso: "",
-                    Reps: serie
-                }
-                //Añadimos las series de cada ejercicio
-
-                semRef.collection('ejercicios').doc(nombre).collection('series').doc('serie' + numSerie).set(data);
-
-                numSerie++;
-            }); // FIN serie
 
             //Añadimos campos al ejercicio (Datos del ejercicio)
             semRef.collection('ejercicios').doc(nombre).set({
-                Rest: rest,
+                Series: series,
+                Reps: reps,
                 Intensidad: intensidad,
-                Reps: repes,
-                Series: repes.length,
                 PesoMin: pesoMin,
-                PesoSesion: 0
+                PesoSesion: "-",
+                Rest: rest
 
             });
 
