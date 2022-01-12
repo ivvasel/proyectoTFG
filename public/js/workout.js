@@ -109,7 +109,7 @@ function addEjercicio(){
     var ejercicio = document.getElementsByName("ejercicio")[0].value;
     document.getElementsByName("ejercicio")[0].value = "";
 
-    var series = document.getElementsByName("series")[0].value;
+    var series = Number(document.getElementsByName("series")[0].value);
     document.getElementsByName("series")[0].value = "";
 
     var reps = document.getElementsByName("reps")[0].value;
@@ -121,7 +121,7 @@ function addEjercicio(){
     var descanso = document.getElementsByName("descanso")[0].value;
     document.getElementsByName("descanso")[0].value = "";
 
-    var pesoMin = document.getElementsByName("pesomin")[0].value;
+    var pesoMin = Number(document.getElementsByName("pesomin")[0].value);
     document.getElementsByName("pesomin")[0].value = "";
 
     const newEjercicio = {

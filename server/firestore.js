@@ -114,9 +114,9 @@ function getUser(nick, res) {
 function crearRutina(body, user) {
     // console.log(body);
     var numDia = 1;
-    var numSerie = 1;
     var fecha = new Date(Date.now());
     console.log(fecha);
+    var ejercicios = []
 
     activado = {
         Activo: true,
@@ -133,30 +133,48 @@ function crearRutina(body, user) {
 
         //Creamos la referencia a la semana para cada día
         semRef = mesRef.collection('dia' + numDia).doc();
-        semRef.set(activado);
-
+        
         dia.forEach(ejer => {
             nombre = ejer.nombre;
             series = ejer.series;
             reps = ejer.reps;
             intensidad = ejer.intensidad;
-            rest = ejer.rest;
             pesoMin = ejer.pesoMin;
+            rest = ejer.rest;
+            
+            var repsSesion = [];
+            var i = 0;
+            while (i<series){
+                repsSesion.push(0)
+                i++;
+            }
 
-
-            //Añadimos campos al ejercicio (Datos del ejercicio)
-            semRef.collection('ejercicios').doc(nombre).set({
+            
+            var ejercicio = {
+                Nombre: nombre,
                 Series: series,
                 Reps: reps,
                 Intensidad: intensidad,
                 PesoMin: pesoMin,
-                PesoSesion: "-",
+                PesoSesion: 0,
+                // RepsSesion: repsSesion,
                 Rest: rest
-
-            });
-
+            }
+            ejercicio.RepsSesion = repsSesion;
+            
+            ejercicios.push(ejercicio);
+            
+            
+            
         });//FIN EJERCICIO
+        //Añadimos el campo ejercicio con todos los ejercicios de la sesión
+        semRef.set({
+            ejercicios
+        });
+        semRef.update(activado);
 
+        //Limpiamos el array de ejercicios
+        ejercicios = []
         numDia++; // Sumamos la variable para saber en que dia estamos
     });//FIN DIA
 
