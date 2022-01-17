@@ -40,42 +40,28 @@ function verRutinaActiva(user) {
     const sectionRef = db.collection('users').doc(user).collection('WorkOut');
     const mesActivo = sectionRef.where('Activo', '==', true).get(); //DocumentRefenciado y utilizamos el get
 
-    mesActivo.then(querySnapshot => {
-        var mes = querySnapshot.docs[0]; //Solo hay un único mes activo
-        return mes.ref;
-    })
-    .then(mesRef => mesRef.listCollections())
-    .then(listaDiasRef => {        
-        var listaDias = listaDiasRef.map(diaRef =>{ //Array con los dias
-            return diaRef.where('Activo', '==', true).get(); //Array con la listaSemana sin resolver
-        });
-        return Promise.all(listaDias); //Array con de los dias con la listaSemana resuelto
-    })
-    .then(dias =>{
-        return dias.map(dia =>{
-            const datos = dia.docs[0].data(); //Solo hay una única semana activa
-            const ejercicios = Object.values(datos);
-            var rutina = [];
-            //Devolvemos solamente los ejericios
-            for (n = 0; n<ejercicios.length -2; n++){ //SI LA SEMANA NO TIENE EJERCICIOS EL ARRAY ESTARÁ VACIO
-                var ejercicioDB = ejercicios[n];
-                var ejercicio = { //ENVIAMOS SOLAMENTE LOS DATOS DE LA DB QUE NOS INTERESAN (SOLAMENTE LOS DATOS RELACIONADOS CON EL CLIENTE)
-                    nombre: ejercicioDB.nombre,
-                    done: ejercicioDB.done,
-                    intensidad: ejercicioDB.intensidad,
-                    pesoMin: ejercicioDB.pesoMin,
-                    rest: ejercicioDB.rest,
-                    series: ejercicioDB.series
-                }
-                var refEjercicio = ejercicioDB.refEjercicio; //CREAMOS METODO PARA ACTUALIZAR LA COLECCION DE EJERCICIOS 
-
-                rutina.push(ejercicio);
-            }
-            return rutina;
+        
+        return mesActivo.then(querySnapshot => {
+            var mes = querySnapshot.docs[0]; //Solo hay un único mes activo
+            return mes.ref;
         })
-    })
-
-    .then(console.log);;
+        .then(mesRef => mesRef.listCollections())
+        .then(listaDiasRef => {        
+            var listaDias = listaDiasRef.map(diaRef =>{ //Array con los dias
+                return diaRef.where('Activo', '==', true).get(); //Array con la listaSemana sin resolver
+            });
+            return Promise.all(listaDias); //Array con de los dias con la listaSemana resuelto
+        })
+        .then(dias =>{
+            var plan = [];
+            return dias.map(dia =>{
+                const datos = dia.docs[0].data(); //Solo hay una única semana activa
+                const ejercicios = datos.ejercicios;
+                plan.push(ejercicios);
+                return plan;
+            })
+        });
+    
 }
 
  

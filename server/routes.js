@@ -1,6 +1,7 @@
 //Route.js - Módulo de rutas
 var {Router} = require('express');
 var app = Router();
+var userController = require('./userController')
 
 //Firebase.js - Módulo de la BD
 const firestore = require('./firestore');
@@ -29,13 +30,7 @@ app.get('/menu',(req,res) =>{
     res.render('menu');
 } );
 
-app.get('/workout', async(req,res) =>{
-    user = "TESTING"
-    resDatos = await firestore.verRutinaActiva(user);
-    console.log(resDatos)
-    res.render('workout');
-    
-});
+app.get('/workout', userController.workout);
 
 app.get('/workout/add', (req,res) => {
 
